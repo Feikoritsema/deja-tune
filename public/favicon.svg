@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#26104e"/>
+      <stop offset="1" stop-color="#0c0716"/>
+    </linearGradient>
+    <linearGradient id="note" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb3c9"/>
+      <stop offset="1" stop-color="#9dfff0"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" fill="url(#bg)"/>
+  <!-- neon slash -->
+  <path d="M64 0 L44 64 H64 Z" fill="#ff5d8f" opacity="0.10"/>
+  <path d="M64 0 L52 64 H44 Z" fill="#37e0c2" opacity="0.08"/>
+  <!-- music note -->
+  <g fill="url(#note)">
+    <circle cx="24" cy="45" r="9"/>
+    <rect x="32" y="15" width="7.5" height="30" rx="3.5"/>
+    <path d="M36.5 17 C 52 13, 60 32, 45 39" fill="none" stroke="url(#note)" stroke-width="5.5" stroke-linecap="round"/>
+  </g>
+  <!-- sparkles -->
+  <circle cx="52" cy="12" r="2.2" fill="#ff5d8f"/>
+  <circle cx="58" cy="20" r="1.4" fill="#ffe08a"/>
+  <circle cx="10" cy="14" r="1.6" fill="#37e0c2"/>
+</svg>
