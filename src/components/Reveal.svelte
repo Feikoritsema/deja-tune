@@ -34,7 +34,13 @@
   let advDone = $state(false);
   let replaying = $state(false);
   let coverBroken = $state(false);
-  let countdown = $state(1);
+  // The countdown bar is driven per-frame, so it must NOT be reactive state —
+  // writing `countdown` as $state at 60fps makes Svelte diff the whole reveal
+  // tree every frame for the full 6.5s. Keep it a plain number and paint the
+  // bar element directly; the rest of the reveal only re-renders on discrete
+  // phase changes (150ms/1000ms/… steps), which is buttery on iPad.
+  let countdown = 1;
+  let countFill: HTMLDivElement | undefined;
 
   const posOf = (year: number) => ((year - yearMin) / range) * 100;
 
@@ -48,6 +54,7 @@
     deadline = Date.now() + remaining;
     const step = () => {
       countdown = Math.max(0, (deadline - Date.now()) / DUR);
+      if (countFill) countFill.style.transform = `scaleX(${countdown})`;
       if (countdown > 0) raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
@@ -268,7 +275,7 @@
     </div>
   {/if}
 
-  <div class="countbar" aria-hidden="true"><div class="countfill" style={`transform:scaleX(${countdown})`}></div></div>
+  <div class="countbar" aria-hidden="true"><div class="countfill" bind:this={countFill}></div></div>
 
   {#if revealed}
     <button class="pill pill--ghost cont" data-testid="continue" onclick={adv}>Tap to continue →</button>
@@ -506,6 +513,17 @@
     object-fit: cover;
     background: var(--card-hi);
     flex: none;
+    animation: cover-in var(--dur) var(--ease-out);
+  }
+  @keyframes cover-in {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
   .cover.fallback {
     display: flex;

@@ -5,6 +5,7 @@
   import { BUZZ_PRESETS } from '../lib/core/settings';
   import { isHowtoDismissed, dismissHowto, reopenHowto } from '../lib/services/howto';
   import HowToPlay from './HowToPlay.svelte';
+  import { fade } from 'svelte/transition';
   import type { Category, Mode, Strictness } from '../lib/core/types';
   import { takeSfx } from '../lib/services/ui';
 
@@ -347,13 +348,13 @@
   </section>
 
   {#if store.loading}
-    <div class="skel-row" aria-hidden="true">
+    <div class="skel-row" aria-hidden="true" transition:fade={{ duration: 200 }}>
       <div class="skel" style="height:56px"></div>
       <div class="skel" style="height:88px"></div>
     </div>
-    <div class="loading">Loading the song pool…</div>
+    <div class="loading" transition:fade={{ duration: 200 }}>Loading the song pool…</div>
   {:else}
-    <button class="pill pill--cta start" disabled={!canStart} onclick={start} data-testid="start-game">
+    <button class="pill pill--cta start" disabled={!canStart} onclick={start} data-testid="start-game" transition:fade={{ duration: 200 }}>
       {solo ? 'Start practice' : 'Start the party'} →
     </button>
   {/if}

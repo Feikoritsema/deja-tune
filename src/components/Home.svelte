@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition';
   import { store, resumeGame, abandonGame } from '../lib/store.svelte';
   import { gameStore, hofStore } from '../lib/services/storage';
   import { takeSfx } from '../lib/services/ui';
@@ -55,14 +56,14 @@
     </div>
 
     {#if store.loading}
-      <div class="skel-row" aria-hidden="true">
+      <div class="skel-row" aria-hidden="true" transition:fade={{ duration: 200 }}>
         <div class="skel" style="height:60px"></div>
         <div class="skel" style="height:60px"></div>
         <div class="skel" style="height:60px"></div>
       </div>
-      <div class="loading">Warming up the turntable…</div>
+      <div class="loading" transition:fade={{ duration: 200 }}>Warming up the turntable…</div>
     {:else}
-      <div class="menu">
+      <div class="menu" transition:fade={{ duration: 200 }}>
         <button class="pill pill--cta big" onclick={() => newGame(false)}>
           ▶&nbsp; Party&nbsp;game
         </button>

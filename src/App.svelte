@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition';
   import { store, abandonGame } from './lib/store.svelte';
   import Home from './components/Home.svelte';
   import Setup from './components/Setup.svelte';
@@ -39,10 +40,10 @@
 
 <div class="app-bg" aria-hidden="true"></div>
 {#if store.offline}
-  <div class="offline" role="status">Offline — already-loaded songs still work. Skip needs no network.</div>
+  <div class="offline" role="status" transition:fade={{ duration: 200 }}>Offline — already-loaded songs still work. Skip needs no network.</div>
 {/if}
 {#if store.toast}
-  <div class="toast" role="status" aria-live="polite">{store.toast}</div>
+  <div class="toast" role="status" aria-live="polite" transition:fade={{ duration: 180 }}>{store.toast}</div>
 {/if}
 {#if crashed}
   <div class="screen screen--wide">
