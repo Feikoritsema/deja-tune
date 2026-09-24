@@ -13,12 +13,14 @@ test.describe('timeline cards mode', () => {
     await expect(page.getByText(s.mysteryTitle, { exact: true })).toHaveCount(0); // spoiler guard
 
     // …a deliberately wrong gap judges inline: verdict names the full name,
-    // the card is discarded, and the turn passes — no page switches
+    // reveals the mystery song, the card is discarded, and the turn passes — no page switches
     const wrong = s.mysteryYear > s.boardYears[0]! ? 0 : s.boardYears.length;
     await page.getByTestId(`gap-${wrong}`).click();
     const verdict = page.getByTestId('verdict');
     await expect(verdict).toContainText('Player 1');
     await expect(verdict).toContainText('discarded');
+    await expect(verdict.getByTestId('discarded-song')).toContainText(s.mysteryTitle);
+    await expect(verdict.getByTestId('discarded-song')).toContainText(String(s.mysteryYear));
     await expect(page.getByTestId('reveal-screen')).toHaveCount(0);
     await expect(page.getByTestId('ministrip-0')).toContainText('1/6'); // P1 still at starter
     await expect(page.getByTestId('board-1')).toBeVisible(); // Player 2's turn, same screen

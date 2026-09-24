@@ -79,7 +79,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 8px 12px;
+    padding: calc(var(--safe-t) + 8px) 12px 8px;
     background: color-mix(in srgb, var(--ink) 82%, transparent);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);

@@ -81,7 +81,7 @@
     color: var(--text);
     font-weight: 700;
     font-size: 0.85rem;
-    padding: 8px 14px;
+    padding: calc(var(--safe-t) + 8px) 14px;
   }
   .crash {
     padding: 28px;

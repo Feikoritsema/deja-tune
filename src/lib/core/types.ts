@@ -107,6 +107,19 @@ export interface Round {
   hintsUsed?: Record<string, number>;
 }
 
+/** Cards mode: latest placement verdict — drives the inline board animation. */
+export interface LastPlacement {
+  playerId: string;
+  gap: number;
+  correct: boolean;
+  trackId: string;
+  year: number;
+  seq: number;
+  /** identity of the placed/discarded mystery — the board reveals it when the card misses */
+  title: string;
+  artist: string;
+}
+
 export interface Game {
   id: string;
   code: string;
@@ -122,8 +135,7 @@ export interface Game {
   usedTrackIds: number[];
   /** cards mode: playerId -> chronologically sorted board (starter + placed) */
   boards: Record<string, Track[]>;
-  /** cards mode: latest placement verdict — drives the inline board animation */
-  lastPlacement: { playerId: string; gap: number; correct: boolean; trackId: string; year: number; seq: number } | null;
+  lastPlacement: LastPlacement | null;
   soloDone: boolean;
 }
 

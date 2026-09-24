@@ -386,7 +386,7 @@ export class Engine {
     } else {
       ps.streak = 0;
     }
-    this.game.lastPlacement = { playerId, gap, correct, trackId: track.id, year: track.year, seq: r.seq };
+    this.game.lastPlacement = { playerId, gap, correct, trackId: track.id, year: track.year, seq: r.seq, title: track.title, artist: track.artist };
     this.emit({ type: 'placedCard', playerId, seat: ps.player.seat, gap, correct });
     for (const t of r.tracks) this.onReveal?.(t);
     this.maybeFinishGame();

@@ -12,7 +12,7 @@
   import { windowRecent } from '../lib/core/freshness';
   import { takeSfx, initials } from '../lib/services/ui';
   import HoldSkip from './HoldSkip.svelte';
-  import type { PlayerState, Round, Track } from '../lib/core/types';
+  import type { LastPlacement, PlayerState, Round, Track } from '../lib/core/types';
 
   let { } = $props();
 
@@ -24,7 +24,7 @@
   let activePS = $state<PlayerState | null>(null);
   let boards = $state<Record<string, Track[]>>({});
   let target = $state(10);
-  let lastPlacement = $state<{ playerId: string; gap: number; correct: boolean; trackId: string; year: number; seq: number } | null>(null);
+  let lastPlacement = $state<LastPlacement | null>(null);
   const catMeta = $derived({ pop: 'Pop', rock: 'Rock', guilty: 'Guilty' }[mystery?.category ?? 'pop']);
 
   $effect(() => {
@@ -45,7 +45,7 @@
   const ownerOf = (pid: string): PlayerState | undefined => players.find((p) => p.player.id === pid);
 
   // ---------- inline verdict: animate each fresh placement once, then dismiss
-  let verdict = $state<typeof lastPlacement>(null);
+  let verdict = $state<LastPlacement | null>(null);
   let seenSeq = -1;
   let verdictTimer: ReturnType<typeof setTimeout> | undefined;
   $effect(() => {
@@ -198,7 +198,11 @@
         {#if verdict.correct}
           <span>✅ <strong>{owner?.player.name ?? 'Someone'}</strong> slotted it in!{isMine ? '' : ` Next: ${activePS?.player.name ?? ''}`}</span>
         {:else}
-          <span>❌ <strong>{owner?.player.name ?? 'Someone'}</strong> missed — discarded.{isMine ? '' : ` Next: ${activePS?.player.name ?? ''}`}</span>
+          <span>
+            ❌ <strong>{owner?.player.name ?? 'Someone'}</strong> missed — it was
+            <span class="disc" data-testid="discarded-song">“{verdict.title}” — {verdict.artist} ({verdict.year})</span>,
+            discarded.{isMine ? '' : ` Next: ${activePS?.player.name ?? ''}`}
+          </span>
         {/if}
       </div>
     {/if}
@@ -334,6 +338,7 @@
   }
   .verdict {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 10px;
     font-size: 1rem;
@@ -341,6 +346,14 @@
     padding: 12px 18px;
     border-radius: var(--r-card);
     border: 1px solid transparent;
+  }
+  .verdict > span {
+    min-width: 0;
+  }
+  .disc {
+    color: var(--amber);
+    font-weight: 800;
+    font-style: italic;
   }
   .verdict.good {
     background: color-mix(in srgb, var(--mint) 13%, transparent);
